@@ -3,12 +3,12 @@ import tkinter as tk
 from tkinter import messagebox
 
 ALLOWED_OPERATIONS = '+-/*'
+DEFAULT_VALUE = '0'
 
 
 def add_digit(digit):
     value = calc.get()
-
-    if value == '0':
+    if value == DEFAULT_VALUE:
         value = value[1:]
 
     calc.delete(0, tk.END)
@@ -39,15 +39,15 @@ def calculate():
         calc.insert(0, eval(value))
     except (NameError, SyntaxError):
         messagebox.showinfo('Error', 'Only digit')
-        calc.insert(0, '0')
+        calc.insert(0, DEFAULT_VALUE)
     except ZeroDivisionError:
         messagebox.showinfo('Error', 'cannot be divided by zero')
-        calc.insert(0, '0')
+        calc.insert(0, DEFAULT_VALUE)
 
 
 def clear():
     calc.delete(0, tk.END)
-    calc.insert(0, '0')
+    calc.insert(0, DEFAULT_VALUE)
 
 
 def make_digit_button(digit):
@@ -77,13 +77,13 @@ def press_key(event):
 
 win = tk.Tk()
 win.title('Calculator')
-win.geometry(f'240x270+100+200')
+win.geometry('240x270+100+200')
 win['bg'] = '#33ffe6'
 
 win.bind('<Key>', press_key)
 
 calc = tk.Entry(win, justify=tk.RIGHT, font=('Arial', 15), width=15)
-calc.insert(0, '0')
+calc.insert(0, DEFAULT_VALUE)
 calc.grid(row=0, column=0, columnspan=4, sticky='we', padx=5)
 
 make_digit_button('1').grid(row=1, column=0, sticky='wens', padx=5, pady=5)
@@ -115,4 +115,5 @@ win.grid_rowconfigure(2, minsize=60)
 win.grid_rowconfigure(3, minsize=60)
 win.grid_rowconfigure(4, minsize=60)
 
-win.mainloop()
+if __name__ == '__main__':
+    win.mainloop()
