@@ -2,12 +2,14 @@ import tkinter as tk
 
 from tkinter import messagebox
 
-ALLOWED_OPERATIONS = '+-/*'
+
+ALL_OPERATIONS = '+-/*'
 DEFAULT_VALUE = '0'
 
 
 def add_digit(digit):
     value = calc.get()
+
     if value == DEFAULT_VALUE:
         value = value[1:]
 
@@ -18,7 +20,7 @@ def add_digit(digit):
 def add_operation(operation):
     value = calc.get()
 
-    if value[-1] in ALLOWED_OPERATIONS:
+    if value[-1] in ALL_OPERATIONS:
         value = value[:-1]
     elif any(('+' in value, '-' in value, '/' in value, '*' in value)):
         calculate()
@@ -30,7 +32,8 @@ def add_operation(operation):
 
 def calculate():
     value = calc.get()
-    if value[-1] in ALLOWED_OPERATIONS:
+
+    if value[-1] in ALL_OPERATIONS:
         value = value + value[:-1]
 
     calc.delete(0, tk.END)
@@ -69,7 +72,7 @@ def make_clear_button(operation):
 def press_key(event):
     if event.char.isdigit():
         add_digit(event.char)
-    if event.char in ALLOWED_OPERATIONS:
+    if event.char in ALL_OPERATIONS:
         add_operation(event.char)
     if event.char == '\r':
         calculate()
@@ -79,6 +82,9 @@ win = tk.Tk()
 win.title('Calculator')
 win.geometry('240x270+100+200')
 win['bg'] = '#33ffe6'
+
+photo = tk.PhotoImage(file='my.png')
+win.iconphoto(False, photo)
 
 win.bind('<Key>', press_key)
 
